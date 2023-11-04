@@ -1,0 +1,5 @@
+/backend/dist
+/backend/node_modules
+/backend/upload/
+
+bank-additional-full.xlsx
