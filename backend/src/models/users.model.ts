@@ -1,32 +1,37 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 
-export default class File extends Model {
+export default class User extends Model {
   public id?: number;
-  public filePath!: string;
-  public userId!: number;
+  public userName!: string;
+  public email!: string;
+  public password!: string;
 }
 
-export const FileMap = (sequelize: Sequelize) => {
-  File.init(
+export const UserMap = (sequelize: Sequelize) => {
+  User.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      filePath: {
+      userName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
       },
-      userId: {
-        type: DataTypes.INTEGER,
+      password: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {
       sequelize,
-      tableName: 'files',
+      tableName: 'users',
       timestamps: true,
     },
   );

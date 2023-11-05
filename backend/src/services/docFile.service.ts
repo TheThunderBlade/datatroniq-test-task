@@ -3,9 +3,10 @@ import excelToJson from 'convert-excel-to-json';
 import { IFile } from '../interfaces/IFile.js';
 import models from '../models/index.js';
 import ApiError from './error.service.js';
+import User from '../models/users.model.js';
 
 class docFileService {
-  uploadFile = async (file: IFile) => {
+  uploadFile = async (file: IFile, user: User) => {
     const filePath: string = file.destination + file.filename;
 
     if (file.mimetype !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
@@ -13,7 +14,7 @@ class docFileService {
       throw ApiError.badRequest('Allowed only .xlsx formats');
     }
 
-    await models.File.create({ filePath });
+    await models.File.create({ filePath, userId: user.id });
   };
 
   getFileDataById = async (id: number) => {

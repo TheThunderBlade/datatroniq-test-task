@@ -1,12 +1,13 @@
-import { Router } from 'express';
+import { Application, Router } from 'express';
 import multer from 'multer';
 import docFileController from '../controllers/docFile.controller.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'upload/');
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   },
 });
@@ -15,7 +16,12 @@ const upload = multer({ storage });
 
 const docFileRoutes = Router();
 
-docFileRoutes.post('/upload', upload.single('file'), docFileController.uploadFile);
-docFileRoutes.get('/getFileData/:id', docFileController.getFileDataById);
+docFileRoutes.post(
+  '/upload',
+  upload.single('file'),
+  <Application>authMiddleware,
+  <Application>docFileController.uploadFile,
+);
+docFileRoutes.get('/getFileData/:id', <Application>authMiddleware, docFileController.getFileDataById);
 
 export default docFileRoutes;

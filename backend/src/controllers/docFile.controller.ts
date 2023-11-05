@@ -1,13 +1,15 @@
 import express, { NextFunction } from 'express';
 import docFileService from '../services/docFile.service.js';
 import { IFile } from '../interfaces/IFile.js';
+import { IRequest } from '../interfaces/IRequest.js';
 
 class docFileController {
-  uploadFile = async (req: express.Request, res: express.Response, next: NextFunction) => {
+  uploadFile = async (req: IRequest, res: express.Response, next: NextFunction) => {
     try {
+      const { user } = req;
       const file = req.file as IFile;
-
-      await docFileService.uploadFile(file);
+      
+      await docFileService.uploadFile(file, user);
 
       res.status(200).json({ message: 'File successfully uploaded!' });
     } catch (e) {

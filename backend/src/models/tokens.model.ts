@@ -1,22 +1,21 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 
-export default class File extends Model {
+export default class Token extends Model {
   public id?: number;
-  public filePath!: string;
+  public refreshToken!: string;
   public userId!: number;
 }
 
-export const FileMap = (sequelize: Sequelize) => {
-  File.init(
+export const TokenMap = (sequelize: Sequelize) => {
+  Token.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      filePath: {
+      refreshToken: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
       },
       userId: {
@@ -26,7 +25,7 @@ export const FileMap = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: 'files',
+      tableName: 'tokens',
       timestamps: true,
     },
   );

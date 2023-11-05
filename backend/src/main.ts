@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;
 
 const app = createServer();
 
-app.listen(PORT, async function () {
+app.listen(PORT, async () => {
   try {
     await db.authenticate();
     await db.sync();

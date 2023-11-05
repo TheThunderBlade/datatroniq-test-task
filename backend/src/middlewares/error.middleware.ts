@@ -1,7 +1,7 @@
 import ApiError from '../services/error.service.js';
 import express, { NextFunction } from 'express';
 
-export default function (err: ApiError, req: express.Request, res: express.Response, next: NextFunction) {
+export default (err: ApiError, req: express.Request, res: express.Response, next: NextFunction) => {
   try {
     console.log(err);
     if (err instanceof ApiError) {
