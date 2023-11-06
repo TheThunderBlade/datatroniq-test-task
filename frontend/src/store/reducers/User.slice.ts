@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAction } from "@reduxjs/toolkit";
 import { IUser } from "../../interfaces/IUser";
 import { logout, refresh, signIn, signUp } from "../actionCreators/User.AC";
 
@@ -8,6 +8,8 @@ interface IUserState {
   message: null | string | undefined | unknown;
   error: null | string | unknown;
 }
+
+export const clearAlerts = createAction("user/clearAlerts");
 
 const initialState: IUserState = {
   user: {
@@ -25,6 +27,11 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(clearAlerts, (state) => {
+      state.error = null;
+      state.message = null;
+    });
+
     builder
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;

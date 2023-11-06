@@ -1,9 +1,11 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
+import User from './users.model.js';
 
 export default class File extends Model {
   public id?: number;
   public filePath!: string;
   public userId!: number;
+  public User!: User;
 }
 
 export const FileMap = (sequelize: Sequelize) => {

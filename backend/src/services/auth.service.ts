@@ -1,5 +1,5 @@
-import ApiError from './error.service.js';
 import bcrypt from 'bcrypt';
+import ApiError from './error.service.js';
 import models from '../models/index.js';
 import tokenService from './token.service.js';
 import User from '../models/users.model.js';
@@ -57,7 +57,7 @@ class AuthService {
     const user = (await models.User.findOne({ where: { id: userData.userId } })) as User;
     const tokens = tokenService.generateTokens({ userId: Number(user.id), userName: user.email });
     await tokenService.saveToken({ userId: Number(user.id), refreshToken: tokens.refreshToken }, true);
-    
+
     return {
       ...tokens,
       user,

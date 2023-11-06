@@ -1,32 +1,33 @@
-import React from "react";
-import { Box, Button, Container } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Container } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { logout } from "../../store/actionCreators/User.AC";
-import { useNavigate } from "react-router-dom";
+import { getFileList } from "../../store/actionCreators/FileList.AC";
+import LogoutButton from "../../components/LogoutButton";
+import FileListItem from "../../components/FileListItem";
+import Loader from "../../components/Loader";
 
 const UserFiles: React.FC = () => {
-  const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { fileList, isLoading } = useAppSelector(
+    (state) => state.fileListReducer
+  );
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(getFileList());
+  }, []);
+
   return (
-    <Container>
-      <Box position={"fixed"} top={10} right={10}>
-        <Button
-          variant="contained"
-          onClick={() =>
-            dispatch(logout()).then((data) => {
-              if (data.type !== "auth/logout/rejected") {
-                navigate("/");
-              }
-            })
-          }
-        >
-          Logout
-        </Button>
-      </Box>
-      <p>{user.userName}</p>
-      <p>{user?.token}</p>
+    <Container sx={{ paddingTop: "5%" }}>
+      <LogoutButton />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box>
+          {fileList.map((file) => (
+            <FileListItem key={file.id} file={file} />
+          ))}
+        </Box>
+      )}
     </Container>
   );
 };

@@ -1,13 +1,15 @@
 import { Box, Snackbar, Alert, AlertColor } from "@mui/material";
 import React, { ReactNode, useState, useEffect } from "react";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { clearAlerts } from "../store/reducers/User.slice";
 
-interface MyComponentProps {
+interface SnackbarLayoutProps {
   children: ReactNode;
 }
 
-const SnackbarLayout: React.FC<MyComponentProps> = ({ children }) => {
+const SnackbarLayout: React.FC<SnackbarLayoutProps> = ({ children }) => {
   const { error, message } = useAppSelector((state) => state.userReducer);
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [severity, setSeverity] = useState<AlertColor>("success");
 
@@ -20,6 +22,10 @@ const SnackbarLayout: React.FC<MyComponentProps> = ({ children }) => {
       setSeverity("success");
       setIsOpen(true);
     }
+    setTimeout(() => {
+      dispatch(clearAlerts());
+      setIsOpen(false)
+    }, 5000);
   }, [error, message]);
 
   return (
@@ -27,10 +33,9 @@ const SnackbarLayout: React.FC<MyComponentProps> = ({ children }) => {
       {children}
       <Snackbar
         open={isOpen}
-        autoHideDuration={4000}
         onClose={() => setIsOpen(false)}
       >
-        <Alert severity={severity}>{String(error || message)}</Alert>
+        <Alert onClose={() => setIsOpen(false)} severity={severity}>{String(error || message)}</Alert>
       </Snackbar>
     </Box>
   );

@@ -1,7 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { TextField, InputAdornment, IconButton, Paper } from "@mui/material";
 import { useState } from "react";
-
 import { IAuth } from "../../../interfaces/IAuth";
 
 interface SignInFormProps {

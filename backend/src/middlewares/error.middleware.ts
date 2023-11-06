@@ -1,5 +1,5 @@
-import ApiError from '../services/error.service.js';
 import express, { NextFunction } from 'express';
+import ApiError from '../services/error.service.js';
 
 export default (err: ApiError, req: express.Request, res: express.Response, next: NextFunction) => {
   try {
@@ -11,4 +11,4 @@ export default (err: ApiError, req: express.Request, res: express.Response, next
   } catch (e) {
     next(e);
   }
-}
+};

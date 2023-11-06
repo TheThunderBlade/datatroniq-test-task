@@ -38,7 +38,16 @@ const Auth: React.FC = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (authOption === "SignUp") {
-      dispatch(signUp(userData));
+      dispatch(signUp(userData)).then((data) => {
+        if (data.type !== "auth/signUp/rejected") {
+          setAuthOption("SignIn");
+          setUserData({
+            userName: "",
+            email: "",
+            password: "",
+          });
+        }
+      });
     } else if (authOption === "SignIn") {
       dispatch(signIn(userData)).then((data) => {
         if (data.type !== "auth/signIn/rejected") {

@@ -8,7 +8,7 @@ class docFileController {
     try {
       const { user } = req;
       const file = req.file as IFile;
-      
+
       await docFileService.uploadFile(file, user);
 
       res.status(200).json({ message: 'File successfully uploaded!' });
@@ -20,8 +20,20 @@ class docFileController {
   getFileDataById = async (req: express.Request, res: express.Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      
+
       const data = await docFileService.getFileDataById(Number(id));
+
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getFileList = async (req: IRequest, res: express.Response, next: NextFunction) => {
+    try {
+      const { user } = req;
+
+      const data = await docFileService.getFileList(Number(user.id));
 
       res.status(200).json(data);
     } catch (e) {

@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import models from '../models/index.js';
+import Token from '../models/tokens.model.js';
+import ApiError from './error.service.js';
 import { IJwtPayload } from '../interfaces/IJwtPayload.js';
 import { ITokens } from '../interfaces/ITokens.js';
-import Token from '../models/tokens.model.js';
 import { ISaveTokens } from '../interfaces/ISaveToken.js';
-import ApiError from './error.service.js';
 
 class UserSessionService {
   generateTokens = (payload: IJwtPayload): ITokens => {

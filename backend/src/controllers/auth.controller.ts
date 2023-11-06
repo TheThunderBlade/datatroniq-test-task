@@ -1,7 +1,6 @@
 import express, { NextFunction } from 'express';
 import authService from '../services/auth.service.js';
-
-const maxAge = 30 * 24 * 60 * 60 * 1000;
+import { maxAge } from '../utils/constants.js';
 
 class authController {
   registration = async (req: express.Request, res: express.Response, next: NextFunction) => {
@@ -19,9 +18,9 @@ class authController {
     try {
       const { userName, password } = req.body;
       const userData = await authService.login({ userName, password });
-      
+
       res.cookie('refreshToken', userData.refreshToken, { maxAge, httpOnly: true });
-      
+
       return res.status(200).json({
         token: userData.accessToken,
         userId: userData.user.id,
@@ -35,7 +34,7 @@ class authController {
   refresh = async (req: express.Request, res: express.Response, next: NextFunction) => {
     try {
       const { refreshToken } = req.cookies;
-      
+
       const userData = await authService.refresh(refreshToken);
       res.cookie('refreshToken', userData.refreshToken, { maxAge, httpOnly: true });
 

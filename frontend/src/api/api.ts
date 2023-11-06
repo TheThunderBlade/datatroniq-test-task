@@ -1,8 +1,9 @@
 import axios from "axios";
 import { IUser } from "../interfaces/IUser";
+import { baseURL } from "../utils/constants";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL,
   withCredentials: true,
 });
 
@@ -22,10 +23,9 @@ api.interceptors.response.use(
     ) {
       originalReq._isRetry = true;
       try {
-        const res = await axios.get<IUser>(
-          "http://localhost:5000/api/refresh",
-          { withCredentials: true },
-        );
+        const res = await axios.get<IUser>(`${baseURL}/refresh`, {
+          withCredentials: true,
+        });
         localStorage.setItem("token", res.data.token);
         return api.request(originalReq);
       } catch (e) {
