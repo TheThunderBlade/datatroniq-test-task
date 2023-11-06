@@ -2,14 +2,24 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { TextField, InputAdornment, IconButton, Paper } from "@mui/material";
 import { useState } from "react";
 
-const SignUpForm: React.FC = () => {
+import { IAuth } from "../../../interfaces/IAuth";
+
+interface SignUpFormProps {
+  setUserData: React.Dispatch<React.SetStateAction<IAuth>>;
+  userData: IAuth;
+}
+
+const SignUpForm: React.FC<SignUpFormProps> = ({ setUserData, userData }) => {
   const [showPass, setShowPass] = useState(false);
 
   return (
     <Paper elevation={2} sx={{ padding: 2 }}>
       <TextField
         required
-        onChange={() => {}}
+        value={userData.userName}
+        onChange={(e) =>
+          setUserData((state: IAuth) => ({ ...state, userName: e.target.value }))
+        }
         label="UserName"
         placeholder="Enter your UserName"
         margin="normal"
@@ -18,7 +28,10 @@ const SignUpForm: React.FC = () => {
       />
       <TextField
         required
-        onChange={() => {}}
+        value={userData.email}
+        onChange={(e) =>
+          setUserData((state: IAuth) => ({ ...state, email: e.target.value }))
+        }
         label="Email"
         placeholder="Enter your Email"
         margin="normal"
@@ -27,7 +40,10 @@ const SignUpForm: React.FC = () => {
       />
       <TextField
         required
-        onChange={() => {}}
+        value={userData.password}
+        onChange={(e) =>
+          setUserData((state: IAuth) => ({ ...state, password: e.target.value }))
+        }
         type={showPass ? "text" : "password"}
         label="Password"
         placeholder="Enter your password"
@@ -46,6 +62,6 @@ const SignUpForm: React.FC = () => {
       />
     </Paper>
   );
-}
+};
 
 export default SignUpForm;

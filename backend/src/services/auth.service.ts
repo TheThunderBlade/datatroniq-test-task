@@ -65,6 +65,9 @@ class AuthService {
   };
 
   logout = async (refreshToken: string): Promise<void> => {
+    if (!refreshToken) {
+      throw ApiError.unauthorized('Invalid refresh token');
+    }
     await tokenService.removeToken(refreshToken);
   };
 }
