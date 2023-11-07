@@ -24,5 +24,6 @@ docFileRoutes.post(
 );
 docFileRoutes.get('/getFileData/:id', <Application>authMiddleware, <Application>docFileController.getFileDataById);
 docFileRoutes.get('/getFileList', <Application>authMiddleware, <Application>docFileController.getFileList);
+docFileRoutes.delete('/deleteFile/:id', <Application>authMiddleware, <Application>docFileController.deleteFile);
 
 export default docFileRoutes;

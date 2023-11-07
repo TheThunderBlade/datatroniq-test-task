@@ -1,5 +1,5 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
-import { getFileById } from "../actionCreators/File.AC";
+import { deleteFileById, getFileById, uploadFile } from "../actionCreators/File.AC";
 
 interface IFileState {
   file: string;
@@ -37,6 +37,36 @@ export const FileSlice = createSlice({
       state.file = action.payload as string;
     })
     .addCase(getFileById.rejected, (state, action) => {
+      state.isLoading = false;
+      state.message = "";
+      state.error = action.payload;
+    });
+
+    builder
+    .addCase(deleteFileById.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(deleteFileById.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.message = action.payload;
+    })
+    .addCase(deleteFileById.rejected, (state, action) => {
+      state.isLoading = false;
+      state.message = "";
+      state.error = action.payload;
+    });
+
+    builder
+    .addCase(uploadFile.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(uploadFile.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.message = action.payload;
+    })
+    .addCase(uploadFile.rejected, (state, action) => {
       state.isLoading = false;
       state.message = "";
       state.error = action.payload;

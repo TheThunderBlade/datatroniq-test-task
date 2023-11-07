@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Container, LinearProgress, Paper } from "@mui/material";
+import { Container, LinearProgress, Paper, Box, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getFileById } from "../../store/actionCreators/File.AC";
 import LogoutButton from "../../components/LogoutButton";
 
 const File: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { file } = useAppSelector((state) => state.fileReducer);
   const dispatch = useAppDispatch();
@@ -60,6 +61,11 @@ const File: React.FC = () => {
 
   return (
     <Container sx={{ paddingTop: "5%" }}>
+      <Box position={"fixed"} top={10} left={10}>
+        <Button variant="contained" onClick={() => navigate("/userFiles")}>
+          Back
+        </Button>
+      </Box>
       <LogoutButton />
       {excelData.length === 0 ? (
         <LinearProgress />

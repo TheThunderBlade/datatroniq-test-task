@@ -25,7 +25,7 @@ class docFileService {
     }
 
     const file = fs.readFileSync(fileRecord.filePath);
-    
+
     return file;
   };
 
@@ -37,6 +37,16 @@ class docFileService {
       owner: file.User.userName,
     }));
     return formatedRecords;
+  };
+
+  deleteFileById = async (id: number, userId: number): Promise<void> => {
+    const fileRecord = await models.File.findOne({ where: { id, userId } });
+    if (!fileRecord) {
+      throw ApiError.notFound('Record with this id was not found');
+    }
+
+    fs.unlinkSync(fileRecord.filePath);
+    await fileRecord.destroy();
   };
 }
 
