@@ -24,18 +24,17 @@ const SnackbarLayout: React.FC<SnackbarLayoutProps> = ({ children }) => {
     }
     setTimeout(() => {
       dispatch(clearAlerts());
-      setIsOpen(false)
+      setIsOpen(false);
     }, 5000);
   }, [error, message]);
 
   return (
     <Box>
       {children}
-      <Snackbar
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <Alert onClose={() => setIsOpen(false)} severity={severity}>{String(error || message)}</Alert>
+      <Snackbar open={isOpen} onClose={() => setIsOpen(false)}>
+        <Alert onClose={() => setIsOpen(false)} severity={severity}>
+          {String(error || message)}
+        </Alert>
       </Snackbar>
     </Box>
   );

@@ -1,5 +1,4 @@
 import * as fs from 'node:fs';
-import excelToJson from 'convert-excel-to-json';
 import models from '../models/index.js';
 import ApiError from './error.service.js';
 import User from '../models/users.model.js';
@@ -19,23 +18,15 @@ class docFileService {
     await models.File.create({ filePath, userId: user.id });
   };
 
-  getFileDataById = async (id: number) => {
-    const fileRecord = await models.File.findOne({ where: { id } });
+  getFileDataById = async (id: number, userId: number): Promise<Buffer> => {
+    const fileRecord = await models.File.findOne({ where: { id, userId } });
     if (!fileRecord) {
       throw ApiError.notFound('Record with this id was not found');
     }
 
-    const excelData = excelToJson({
-      sourceFile: fileRecord.filePath,
-      header: {
-        rows: 1,
-      },
-      columnToKey: {
-        '*': '{{columnHeader}}',
-      },
-    });
-
-    return excelData;
+    const file = fs.readFileSync(fileRecord.filePath);
+    
+    return file;
   };
 
   getFileList = async (userId: number): Promise<IFileList[]> => {

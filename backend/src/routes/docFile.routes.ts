@@ -22,7 +22,7 @@ docFileRoutes.post(
   <Application>authMiddleware,
   <Application>docFileController.uploadFile,
 );
-docFileRoutes.get('/getFileData/:id', <Application>authMiddleware, docFileController.getFileDataById);
+docFileRoutes.get('/getFileData/:id', <Application>authMiddleware, <Application>docFileController.getFileDataById);
 docFileRoutes.get('/getFileList', <Application>authMiddleware, <Application>docFileController.getFileList);
 
 export default docFileRoutes;

@@ -17,13 +17,14 @@ class docFileController {
     }
   };
 
-  getFileDataById = async (req: express.Request, res: express.Response, next: NextFunction) => {
+  getFileDataById = async (req: IRequest, res: express.Response, next: NextFunction) => {
     try {
+      const { user } = req;
       const { id } = req.params;
 
-      const data = await docFileService.getFileDataById(Number(id));
+      const data = await docFileService.getFileDataById(Number(id), Number(user.id));
 
-      res.status(200).json(data);
+      res.status(200).json(data.toString("base64"));
     } catch (e) {
       next(e);
     }

@@ -5,6 +5,7 @@ import SnackbarLayout from "../components/SnackbarLayout";
 import UserFiles from "./userFiles/UserFiles";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { refresh } from "../store/actionCreators/User.AC";
+import File from "./file/File";
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ const Index: React.FC = () => {
         <Route path="/" element={<Auth />} />
         {user?.token ? (
           <Route path="/userFiles" element={<UserFiles />} />
+        ) : null}
+        {user?.token ? (
+          <Route path="/file/:id" element={<File />} />
         ) : null}
         <Route path="*" element={<Navigate replace to={"/"} />} />
       </Routes>
